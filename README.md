@@ -1,3 +1,5 @@
+Please note that this repository will be updated soon.
+
 # MUPPET
 Code for the ACL 2019 paper 
 [Multi-Hop Paragraph Retrieval for Open-Domain Question Answering](https://arxiv.org/abs/1906.06606), 
