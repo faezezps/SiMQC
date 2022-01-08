@@ -96,34 +96,33 @@ python hotpot/scripts/train_eval/ablate_hotpot_qa.py <qa model dir>
 First, we find the top TF-IDF titles for each question in the dev/test set.
 For example, for the top 64 titles, we could run:
 ``` 
-python hotpot/scripts/data_building/build_hotpot_open_dataset.py question_test_64.json 64 --num-workers 16 
+export CLASSPATH="$CLASSPATH:/path/corenlp/*" && python hotpot/scripts/data_building/build_hotpot_open_dataset.py question_test_512.json 512 --num-workers 16
 ```
 
 Then, we encode the documents corresponding to the top titles:
 ``` 
 mkdir <encodings dir>
-python hotpot/encoding/encode_documents.py <encodings dir>
-<model dir> --questions_file question_test_64.json --checkpoint latest --ema --hotpot
+
+export CLASSPATH="$CLASSPATH:/path/corenlp/*" && python hotpot/encoding/encode_documents.py <encodings dir> <hotpot retriever model> --questions_file question_test_512.json --checkpoint latest --ema --hotpot
 ```
 
 Next, we perform a multi-hop MIPS retrieval using the encodings:
 ``` 
-python hotpot/encoding/iterative_encoding_retrieval_batch.py <out dir> question_test_64.json <encodings dir> <model dir> --k1 8 --k2 45 --n1 32 --n2 64 --eval --rft --checkpoint latest --ema
+export CLASSPATH="$CLASSPATH:/path/corenlp/*" && python hotpot/encoding/iterative_encoding_retrieval_batch_finalWithClassifier.py <out dir>  question_test_512.json <encodings dir> <retriever model> --k1 8 --k2 45 --n1 32 --n2 512 --eval --rft --checkpoint latest --ema
 ```
 Where n\<i> is the size of the search space for retrieval iteration \<i>.
 
-Finally, we to run the QA model:
+Finally, we run the QA model:
 ``` 
-python hotpot/scripts/train_eval/hotpot_qa_distractors_eval.py <qa model dir> qa_pred.json -s latest -c retrieval_file -t 600 --input_file <out dir>/n2-64/n1-32/n1-32_n2-64_k1-8_k2-45.json --test_mode
+
+python hotpot/scripts/train_eval/hotpot_qa_distractors_eval.py <qa model dir> qa_prediction.json -s latest -c retrieval_file -t 600 --input_file out_dir_witClassifier_28shahrivar_2/n2-512/n1-32/n1-32_n2-512_k1-8_k2-45.json --test_mode
 ```
 
 Evaluate the results:
 ``` 
-python hotpot_evaluate_v1.py qa_pred.json data/hotpot/hotpot_dev_fullwiki_v1.json
+python hotpot_evaluate_v1.py qa_prediction.json data/hotpot/hotpot_dev_distractor_v1.json
 ```
 
-## Interactive Mode
-Will be added soon.
 
 ## Pretrained Models
 * [HotpotQA retriever model, paragraph-level, without ELMo inputs](https://drive.google.com/open?id=1yge6TAETmKPlJcfc90gXXyHvfIYj8k7w) (the model with ELMo inputs achieves better results (similar to those reported in the paper) but uses much more memory)
