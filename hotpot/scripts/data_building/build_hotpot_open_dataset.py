@@ -16,6 +16,8 @@ PROCESS_RANKER = None
 TOP_K = None
 GET_TEXT = None
 
+import hotpot.tokenizers
+hotpot.tokenizers.set_default('corenlp_classpath' , '/home/isg/apps/corenlp/*')
 
 def init(top_k, get_text):
     global PROCESS_DB, PROCESS_RANKER, TOP_K, GET_TEXT
