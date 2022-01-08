@@ -1,11 +1,10 @@
 Please note that this repository will be updated soon.
 
 # MUPPET
-Code for the ACL 2019 paper 
-[Multi-Hop Paragraph Retrieval for Open-Domain Question Answering](https://arxiv.org/abs/1906.06606), 
-by Yair Feldman and Ran El-Yaniv.
+Code for paper [Single- and Multi-Hop BERT Question Classifier for Open-Domain Question Answering (SiMQC)](https://willbeaddedsoon), 
+by  Faeze Zakaryapour Sayyad and Mahdi Bohlouli.
 
-Much of the code in this repo is based on the following codebase: https://github.com/allenai/document-qa.
+Much of the code in this repo is based on the following codebases: https://github.com/allenai/document-qa , https://github.com/yairf11/MUPPET.
 
 ## Setup
 First, clone the repository:
@@ -31,7 +30,7 @@ Install Stanford CoreNLP using the instructions available [here](https://github.
 
 ### Data
 By default, we expect the word vectors to be stored in "~/data" and all other data to be stored in "./data". 
-The expected file locations can be changed by altering config.py.
+The expected file locations can be changed by altering config.py. To obtain the mix data, please refer to SiMhop jupyter file.
 #### Word Vectors
 The models we train use the common crawl 840 billion token GloVe word vectors from [here](https://nlp.stanford.edu/projects/glove/).
 They are expected to exist in "~/data/glove/glove.840B.300d.txt". 
